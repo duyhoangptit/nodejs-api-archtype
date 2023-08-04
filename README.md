@@ -7,3 +7,7 @@
 
 # Using husky & lint-staged & comventional-changelog
 https://github.com/conventional-changelog/commitlint
+
+# start dev
+    `npm run build:watch`
+    `npm run dev`
