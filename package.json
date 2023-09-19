@@ -6,8 +6,8 @@
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "build:watch": "npm run build -- --watch",
-    "start": "node dist/main/server.js",
-    "dev": "nodemon --exec",
+    "dev": "NODE_ENV=dev node dist/main/server.js",
+    "start": "NODE_ENV=prod node dist/main/server.js",
     "up": "concurrently --kill-others-on-fail \"npm run build:watch\" \"docker compose up\"",
     "down": "docker compose down",
     "start:dev": "concurrently --kill-orthers-on-fail \"npm run build:watch\" \"npm run dev\"",
