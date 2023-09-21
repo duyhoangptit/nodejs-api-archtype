@@ -1,4 +1,13 @@
-FROM ubuntu:latest
-LABEL authors="taduyhoang"
+FROM node
 
-ENTRYPOINT ["top", "-b"]
+WORKDIR /.
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 8080
+
+CMD ["npm", "dev"]
