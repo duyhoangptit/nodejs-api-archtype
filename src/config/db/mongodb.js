@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {DB_URL} = require('../../config')
+const {DB_URL} = require('../index')
 const MAX_POLL_SIZE = 50;
 const TIME_OUT_CONNECT = 3000;
 

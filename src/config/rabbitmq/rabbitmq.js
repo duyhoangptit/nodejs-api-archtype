@@ -2,7 +2,7 @@ const amqplib = require('amqplib')
 const {
     MSG_QUEUE_URL,
     EXCHANGE_NAME
-} = require("../config");
+} = require("../index");
 
 module.exports.createChannel = async () => {
     try {

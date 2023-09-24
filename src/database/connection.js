@@ -1,6 +1,6 @@
 'use strict'
 
-const mongooseConnect = require('./db/mongodb')
+const mongooseConnect = require('../config/db/mongodb')
 
 const DB_TYPE = {
     MONGODB: 'mongodb',

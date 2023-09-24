@@ -1,9 +1,11 @@
 const express = require('express')
 const {PORT} = require('./config')
 const {Database} = require('./database')
+const RedisConnect = require('./config/redis/redis.connect')
 const expressApp = require('./app')
 
 const config = require('./config')
+const {createChannel} = require("./config/rabbitmq/rabbitmq");
 console.log("config:: ", config)
 
 const startServer = async () => {
@@ -12,8 +14,14 @@ const startServer = async () => {
     // connection database
     await Database.getInstance()
 
+    // connection redis
+    await RedisConnect.getInstance()
+
+    // connect rabbitmq and create channel rabbit mq
+    const channel = await createChannel()
+
     // setting express app
-    await expressApp(app);
+    await expressApp(app, channel);
 
     app.listen(PORT, () => {
         console.log(`listening to port ${PORT}`);
@@ -28,5 +36,5 @@ const startServer = async () => {
 }
 
 startServer().then(() => {
-    console.log("done")
+    console.log("Server start DONE")
 })

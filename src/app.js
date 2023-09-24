@@ -1,22 +1,24 @@
 const express = require('express')
 const cors = require('cors')
-const {createChannel} = require("./message-brocker/rabbitmq");
 const {sampleApi, healthApi} = require('./api')
 const sampleEvent = require('./api/events/sample.event')
+const errorHandler = require('./exceptions/error-handler')
+const {openApi} = require('./config/swagger/swagger.config')
 
-module.exports = async (app) => {
+module.exports = async (app, channel) => {
     app.use(express.json())
     app.use(cors())
     app.use(express.static(__dirname + '/public'))
+    app.use(errorHandler)
+
+    // swagger, open api
+    openApi(app)
 
     // health check
     healthApi(app)
 
     // api
     sampleApi(app)
-
-    // create channel rabbit mq
-    const channel = await createChannel()
 
     // event
     sampleEvent(channel)
