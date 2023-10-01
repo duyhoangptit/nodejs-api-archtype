@@ -6,6 +6,7 @@ const expressApp = require('./app')
 
 const config = require('./config')
 const {createChannel} = require("./config/rabbitmq/rabbitmq");
+const {exit} = require("./utils/exits.util");
 console.log("config:: ", config)
 
 const startServer = async () => {
@@ -28,10 +29,11 @@ const startServer = async () => {
     })
     .on('error', (err) => {
         console.log(err);
-        process.exit();
+        exit();
     })
     .on('close', () => {
         // close channel rabbit mq to here
+        channel.close()
     })
 }
 

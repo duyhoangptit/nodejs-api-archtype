@@ -5,6 +5,7 @@
   "scripts": {
     "start": "NODE_ENV=prod node src/server.js",
     "dev": "NODE_ENV=dev node src/server.js",
+    "scale": "NODE_ENV=prod pm2 start src/server.js -i max",
     "test": "jest"
   },
   "dependencies": {
