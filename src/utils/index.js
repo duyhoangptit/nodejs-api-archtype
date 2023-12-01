@@ -1,28 +1,11 @@
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const {
     APP_SECRET,
 } = require("../config");
+const {Types} = require("mongoose");
 
-//Utility functions
-module.exports.GenerateSalt = async () => {
-    return await bcrypt.genSalt();
-};
-
-module.exports.GeneratePassword = async (password, salt) => {
-    return await bcrypt.hash(password, salt);
-};
-
-module.exports.ValidatePassword = async (
-    enteredPassword,
-    savedPassword,
-    salt
-) => {
-    return (await this.GeneratePassword(enteredPassword, salt)) === savedPassword;
-};
-
-module.exports.ValidateSignature = async (req) => {
+module.exports.validateSignature = async (req) => {
     try {
         const signature = req.get("Authorization");
         console.log(signature);
@@ -34,10 +17,19 @@ module.exports.ValidateSignature = async (req) => {
     }
 };
 
-module.exports.FormatData = (data) => {
+module.exports.formatData = (data) => {
     if (data) {
         return { data };
     } else {
         throw new Error("Data Not found!");
     }
 };
+
+
+module.exports.unGetSelectData = (select = []) => {
+    return Object.fromEntries(select.map((el => [el, 0])))
+}
+
+module.exports.convert2ObjectId = id => {
+    return new Types.ObjectId(id)
+}

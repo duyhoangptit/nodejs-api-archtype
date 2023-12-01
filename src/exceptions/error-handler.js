@@ -1,5 +1,5 @@
 const {createLogger, transports} = require('winston')
-const BaseError = require('./error.response')
+const {BaseError} = require('./error.response')
 const {exit} = require('../utils/exits.util')
 
 const LogErrors = createLogger({
@@ -38,15 +38,15 @@ const ErrorHandler = async (err, req, res, next) => {
     });
 
     // CTRL+C
-        process.on('SIGQUIT', () => {
-            console.log('Keyboard quit:: Service stop!!!')
-            exit()
-        });
+    process.on('SIGQUIT', () => {
+        console.log('Keyboard quit:: Service stop!!!')
+        exit()
+    });
     // Keyboard quit
-        process.on('SIGTERM', () => {
-            console.log('Kill command:: Service stop!!!')
-            exit()
-        });
+    process.on('SIGTERM', () => {
+        console.log('Kill command:: Service stop!!!')
+        exit()
+    });
     // `kill` command
 
     process.on('uncaughtException', (reason, promise) => {
@@ -69,16 +69,26 @@ const ErrorHandler = async (err, req, res, next) => {
                 const errorDescription = err.errorStack;
                 return res.status(err.statusCode).json({'message': errorDescription})
             }
-            return res.status(err.statusCode).json({'message': err.message })
+            return res.status(err.status)
+                .json(mappingResponseError(err))
         } else {
             // process exit
-            exit()
+            // exit()
             // terriablly wrong with flow need restart
+            return res.status(err.status)
+                .json(mappingResponseError(err))
         }
-        return res.status(err.statusCode).json({'message': err.message})
     }
 
     next()
+}
+
+const mappingResponseError = (err) => {
+    return {
+        message: err.message,
+        status: err.status,
+        errors: err.errors
+    }
 }
 
 

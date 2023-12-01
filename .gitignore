@@ -1,3 +1,4 @@
 /node_modules
 /app_error.log
 /package-lock.json
+/.idea
