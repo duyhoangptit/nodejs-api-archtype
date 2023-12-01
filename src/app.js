@@ -12,7 +12,6 @@ module.exports = async (app, channel) => {
         origin: corsOptions
     }))
     app.use(express.static(__dirname + '/public'))
-    app.use(errorHandler)
 
     // swagger, open api
     openApi(app)
@@ -23,6 +22,10 @@ module.exports = async (app, channel) => {
     // api
     sampleApi(app)
 
+    // handler errors global
+    app.use(errorHandler)
+
     // event
     sampleEvent(channel)
+
 }
